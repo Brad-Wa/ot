@@ -6,6 +6,8 @@ import datetime
 # Create your views here.
 def index(request):
     if 'logged' in request.session:
+        if request.session['logged'] == 'Admin':
+            return redirect('/admin')
         return redirect('/home')
     return render(request, 'ot_app/login.html')
 
