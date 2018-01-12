@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {%load static%}
+    <title>OT ROSTER</title>
+    <link rel="stylesheet" href="{% static 'ot_app/css/master.css' %}">
+  </head>
+  <body>
+    <h1>Aerospace OT Roster Admin</h1>
+    {%if messages%}
+    <div class="messages">
+      {%for message in messages%}
+      {{message}}
+      <br>
+      {%endfor%}
+    </div>
+    {%endif%}
+    <h2>Current Weekend Signups</h2>
+    <h2>Employees</h2>
+      {%if employees%}
+      {%for employee in employees%}
+      <div class="window">
+      <form class="" action="/admin/{{employee.number}}/destroy" method="post">
+        <a href="/admin/{{employee.number}}">{{employee.number}}</a><input type="submit" name="" value="Remove">
+        {%csrf_token%}
+      </form>
+      </div>
+      <br>
+      {%endfor%}
+      {%endif%}
+    <h2>Add employee</h2>
+    <form class="" action="/create" method="post">
+      {%csrf_token%}
+      Employee number: <input type="text" name="num" value="">
+      <input type="submit" name="" value="Add">
+    </form>
+    <a href="/logout">Logout</a>
+  </body>
+</html>

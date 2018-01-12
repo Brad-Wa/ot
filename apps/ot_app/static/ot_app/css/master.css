@@ -1,0 +1,30 @@
+h1{
+  color: blue;
+}
+td{
+  border: 2px solid black;
+}
+.window{
+  width:130px;
+
+
+}
+.window input{
+  float:right;
+}
+body{
+  width:970px;
+}
+.green{
+  width: 25px;
+  height: 25px;
+  background-color: green;
+}
+.red{
+  width: 25px;
+  height: 25px;
+  background-color: red;
+}
+table, td{
+  border:1px solid black;
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    {%load static%}
+    <link rel="stylesheet" href="{% static 'ot_app/css/master.css'%}">
+    <title>{{employee.number}}</title>
+  </head>
+  <body>
+    Today:<br>
+    {{today}}<br>
+    Current upcoming weekend:<br>
+    {{end}}
+    <br>
+    Weekend number : {{weekendnum}}
+    <h2>Do you want to work the next weekend?</h2>
+    <form class="" action="\update" method="post">
+      {%csrf_token%}
+      Saturday: Yes<input type="radio" name="sat" value="green"> No <input type="radio" name="sat" value="red"><br>
+      Sunday: Yes<input type="radio" name="sun" value="green"> No <input type="radio" name="sun" value="red"><br>
+      <input type="submit" name="" value="Submit">
+    </form>
+
+
+<h1>Employee: {{employee.number}}</h1>
+
+    <table>
+      <tr>
+        <th>Week</th>
+        {%for weekend in weekend%}
+        <th>{{weekend.weekend}}</th>
+        <th></th>
+        {%endfor%}
+      </tr>
+      <tr>
+        <td>Day of weekend</td>
+        {%for weekend in weekend %}
+          <td>1</td>
+          <td>2</td>
+        {%endfor%}
+      </tr>
+      <tr>
+        <td>Status</td>
+        {%for weekend in weekend%}
+          <td>
+            <div class="{{weekend.saturday}}">
+
+            </div>
+          </td>
+          <td>
+            <div class="{{weekend.sunday}}">
+
+            </div>
+          </td>
+        {%endfor%}
+    </table>
+
+
+
+
+
+    <a href="/logout">Logout</a>
+  </body>
+</html>
