@@ -24,14 +24,14 @@ def login(request):
         return redirect('/')
 
 def home(request):
+    if request.session['logged'] == "Admin":
+        return redirect('/admin')
     emp = Employee.objects.get(number = request.session['logged'])
     date = datetime.date.today()
     end = datetime.date.today()
-    print date.strftime('%a')
     while end.weekday() < 5:
         end= end.replace(day = end.day + 1)
-        print end
-        weekendnum = (end.timetuple().tm_yday)/7+1
+    weekendnum = (end.timetuple().tm_yday)/7+1
     content={
     'employee' : emp,
     'weekend' : Weekend.objects.filter(employee = emp),
@@ -45,6 +45,7 @@ def home(request):
 
 
 def update(request):
+
     a = Employee.objects.get(number = request.session['logged'])
 
     end = datetime.date.today()
@@ -55,8 +56,10 @@ def update(request):
     weekend = (end.timetuple().tm_yday)/7+1
 
     b = a.Weekend.get(weekend = weekend)
-    b.saturday = request.POST['sat']
-    b.sunday = request.POST['sun']
+    if 'sat' in request.POST:
+        b.saturday = request.POST['sat']
+    if 'sun' in request.POST:
+        b.sunday = request.POST['sun']
     b.save()
 
     return redirect('/home')
@@ -64,22 +67,40 @@ def update(request):
 
 
 def admin(request):
-    content = {
-    'employees' : Employee.objects.all()
-    }
-    return render(request, 'ot_app/admin.html', content)
-def create(request):
-    if len(request.POST) < 1:
-        messages.add_message(request, message.INFO,'Must input valid employee number')
-        return redirect('/admin')
+    if request.session['logged'] != "Admin":
+        return redirect('/')
     try:
-        Employee.objects.get(number = request.POST['num'])
-        messages.add_message(request, messages.INFO, 'Employee already exists')
-        return redirect('/admin')
+        date = datetime.date.today()
+        end = datetime.date.today()
+        while end.weekday() < 5:
+            end= end.replace(day = end.day + 1)
+        weekendnum = (end.timetuple().tm_yday)/7+1
+        content = {
+        'employees' : Employee.objects.all(),
+        'weekends' : Weekend.objects.all(),
+        'weekendstemplate' : Employee.objects.first().Weekend.all(),
+        'nextweekend' : weekendnum,
+        }
+        return render(request, 'ot_app/admin.html', content)
     except:
-        a = Employee.objects.create(number = request.POST['num'])
-        for x in range(1,53):
-            Weekend.objects.create(weekend = x, saturday = 0, sunday = 0, employee = a)
+        return render(request, 'ot_app/admin.html')
+def create(request):
+    try:
+        int(request.POST['num'])
+        if len(request.POST) < 1:
+            messages.add_message(request, messages.INFO,'Must input valid employee number')
+            return redirect('/admin')
+        try:
+            Employee.objects.get(number = request.POST['num'])
+            messages.add_message(request, messages.INFO, 'Employee already exists')
+            return redirect('/admin')
+        except:
+            a = Employee.objects.create(number = request.POST['num'])
+            for x in range(1,53):
+                Weekend.objects.create(weekend = x, saturday = 0, sunday = 0, employee = a)
+            return redirect('/admin')
+    except:
+        messages.add_message(request, messages.INFO,'Must input valid employee number')
         return redirect('/admin')
 def destroy(request, num):
     a = Employee.objects.filter(number = num)

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     {%load static%}
     <link rel="stylesheet" href="{% static 'ot_app/css/master.css'%}">
-    <title>{{employee.number}}</title>
+    <title>OT Roster {{employee.number}}</title>
   </head>
   <body>
     Today:<br>
@@ -18,7 +18,7 @@
       {%csrf_token%}
       Saturday: Yes<input type="radio" name="sat" value="green"> No <input type="radio" name="sat" value="red"><br>
       Sunday: Yes<input type="radio" name="sun" value="green"> No <input type="radio" name="sun" value="red"><br>
-      <input type="submit" name="" value="Submit">
+      <input class='button' type="submit" name="" value="Submit">
     </form>
 
 

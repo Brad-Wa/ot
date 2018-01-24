@@ -1,0 +1,36 @@
+html{
+  height: 100%;
+  width: 100%;
+}
+body{
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  padding:20% 0;
+
+}
+.window{
+  border: 2px solid black;
+  display: inline-block;
+  padding: 100px;
+
+}
+h1{
+  color: white;
+  background-color: rgb(39, 55, 131);
+  display: inline-block;
+  padding: 0 50px;
+  margin-bottom: 0px;
+}
+.button{
+  width: 75px;
+  background-color: rgb(39, 55, 131);
+  color: white;
+  border-radius: 10px;
+}
+.messages{
+  border: 2px solid red;
+  color: red;
+  display: inline-block;
+  margin: 10px;
+}
