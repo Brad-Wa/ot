@@ -83,7 +83,14 @@ def admin(request):
         }
         return render(request, 'ot_app/admin.html', content)
     except:
-        return render(request, 'ot_app/admin.html')
+        end = datetime.date.today()
+        while end.weekday() < 5:
+            end= end.replace(day = end.day + 1)
+        weekendnum = (end.timetuple().tm_yday)/7+1
+        content = {
+        'nextweekend' : weekendnum,
+        }
+        return render(request, 'ot_app/admin.html',content)
 def create(request):
     try:
         int(request.POST['num'])
